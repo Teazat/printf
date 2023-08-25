@@ -1,25 +1,23 @@
 #include "main.h"
+
 /**
-* get_size - find the estimate to cast the contention
-* @format: Organized string in which to print the contentions
-* @i: List of contentions to be printed.
+* calculate_casting_size - Calculate the casting size for argument
+* @format_str: The formatted string to process
+* @current_idx: The current position in the format string
 *
-* Return: Precision.
+* Return: Calculated casting size
 */
-int get_size(const char *format, int *i)
+int calculate_casting_size(const char *format_str, int *current_idx)
 {
-	int curr_i = *i + 1;
-	int size = 0;
-
-	if (format[curr_i] == 'l')
-		size = S_LONG;
-	else if (format[curr_i] == 'h')
-		size = S_SHORT;
-
-	if (size == 0)
-		*i = curr_i - 1;
-	else
-		*i = curr_i;
-
-	return (size);
+int currentIdx = *current_idx + 1;
+int castingSize = 0;
+if (format_str[currentIdx] == 'l')
+castingSize = S_LONG;
+else if (format_str[currentIdx] == 'h')
+castingSize = S_SHORT;
+if (castingSize == 0)
+*current_idx = currentIdx - 1;
+else
+*current_idx = currentIdx;
+return (castingSize);
 }

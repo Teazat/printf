@@ -1,41 +1,37 @@
 #include "main.h"
+
 /**
-* get_precision - Find the exactness for printing
-* @format: Designed string in which to print the contentions
-* @i: List of contentions to be printed.
-* @list: list of contentions.
+* get_calculated_precision - Calculate precision for printing
+* @format_str: The formatted string to process
+* @curr_pos: The current position in the format string
+* @arg_list: The list of arguments
 *
-* Return: Precision.
+* Return: Calculated precision
 */
-int get_precision(const char *format, int *i, va_list list)
+int get_calculated_precision(const char *format_str,
+		int *curr_pos, va_list arg_list)
 {
-/**Declearing var*/
-	int curr_i = *i + 1;
-	int precision = -1;
-
-	if (format[curr_i] != '.')
-		return (precision);
-
-	precision = 0;
-
-	for (curr_i += 1; format[curr_i] != '\0'; curr_i++)
-	{
-		if (is_digit(format[curr_i]))
-		{
-			precision *= 10;
-			precision += format[curr_i] - '0';
-		}
-		else if (format[curr_i] == '*')
-		{
-			curr_i++;
-			precision = va_arg(list, int);
-			break;
-		}
-		else
-			break;
-	}
-
-	*i = curr_i - 1;
-
-	return (precision);
+int currentIndex = *curr_pos + 1;
+int precisionValue = -1;
+if (format_str[currentIndex] != '.')
+return (precisionValue);
+precisionValue = 0;
+for (currentIndex += 1; format_str[currentIndex] != '\0'; currentIndex++)
+{
+if (is_digit(format_str[currentIndex]))
+{
+precisionValue *= 10;
+precisionValue += format_str[currentIndex] - '0';
+}
+else if (format_str[currentIndex] == '*')
+{
+currentIndex++;
+precisionValue = va_arg(arg_list, int);
+break;
+}
+else
+break;
+}
+*curr_pos = currentIndex - 1;
+return (precisionValue);
 }

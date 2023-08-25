@@ -1,32 +1,30 @@
 #include "main.h"
 /**
- * get_flags - evaluate active flags
- * @format: Formating str in which to print the arguments
- * @i: consider a par.
- *
- * Return: Flags:
- */
-int get_flags(const char *format, int *i)
+* get_calculated_flags - Calculate active flags
+* @format_str: The formatted string to process
+* @curr_pos: The current position in the format string
+* Return: Calculated flags
+*/
+int get_calculated_flags(const char *format_str, int *curr_pos)
 {
-	int j, curr_i;
-	int flags = 0;
-	const char FLAGS_CH[] = {'-', '+', '0', '#', ' ', '\0'};
-	const int FLAGS_ARR[] = {F_MINUS, F_PLUS, F_ZERO, F_HASH, F_SPACE, 0};
-
-	for (curr_i = *i + 1; format[curr_i] != '\0'; curr_i++)
-	{
-		for (j = 0; FLAGS_CH[j] != '\0'; j++)
-			if (format[curr_i] == FLAGS_CH[j])
-			{
-				flags |= FLAGS_ARR[j];
-				break;
-			}
-
-		if (FLAGS_CH[j] == 0)
-			break;
-	}
-
-	*i = curr_i - 1;
-
-	return (flags);
+int flagIndex, currentIndex;
+int calculatedFlags = 0;
+const char FLAG_CHARS[] = {'-', '+', '0', '#', ' ', '\0'};
+const int FLAG_VALUES[] = {F_MINUS, F_PLUS, F_ZERO, F_HASH, F_SPACE, 0};
+for (currentIndex = *curr_pos + 1;
+		format_str[currentIndex] != '\0'; currentIndex++)
+{
+for (flagIndex = 0; FLAG_CHARS[flagIndex] != '\0'; flagIndex++)
+{
+if (format_str[currentIndex] == FLAG_CHARS[flagIndex])
+{
+calculatedFlags |= FLAG_VALUES[flagIndex];
+break;
+}
+}
+if (FLAG_CHARS[flagIndex] == 0)
+break;
+}
+*curr_pos = currentIndex - 1;
+return (calculatedFlags);
 }

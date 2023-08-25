@@ -1,36 +1,34 @@
 #include "main.h"
+
 /**
-* get_width - evaluate the width for printing
-* @format: Organized string in which to print the contentions.
-* @i: List of contentions to be printed.
-* @list: list of contentions.
+* calculate_printing_width - Calculate the printing width for formatting
+* @format_str: The formatted string to process
+* @current_idx: The current position in the format string
+* @arg_list: The list of arguments
 *
-* Return: width.
+* Return: Calculated printing width
 */
-int get_width(const char *format, int *i, va_list list)
+int calculate_printing_width(const char *format_str,
+		int *current_idx, va_list arg_list)
 {
-/**initializing var */
-	int curr_i;
-	int width = 0;
-
-	for (curr_i = *i + 1; format[curr_i] != '\0'; curr_i++)
-	{
-		if (is_digit(format[curr_i]))
-		{
-			width *= 10;
-			width += format[curr_i] - '0';
-		}
-		else if (format[curr_i] == '*')
-		{
-			curr_i++;
-			width = va_arg(list, int);
-			break;
-		}
-		else
-			break;
-	}
-
-	*i = curr_i - 1;
-
-	return (width);
+int currentIndex = *current_idx + 1;
+int printingWidth = 0;
+for (; format_str[currentIndex] != '\0'; currentIndex++)
+{
+if (is_digit(format_str[currentIndex]))
+{
+printingWidth *= 10;
+printingWidth += format_str[currentIndex] - '0';
+}
+else if (format_str[currentIndex] == '*')
+{
+currentIndex++;
+printingWidth = va_arg(arg_list, int);
+break;
+}
+else
+break;
+}
+*current_idx = currentIndex - 1;
+return (printingWidth);
 }
