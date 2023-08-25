@@ -1,170 +1,164 @@
-#include "main.h"
+#include "custom_formatting.h"
 
-/************************* Print unsigned number *************************/
-
+/******************** CUSTOM PRINT UNSIGNED NUMBER ***************/
 /**
- * print_unsigned - Prints an unsigned number.
- * @types: List of arguments.
- * @buffer: Buffer array used for printing.
- * @flags: Active flags for calculation.
- * @width: Obtained width.
- * @precision: Precision specification.
- * @size: Size specifier.
- *
- * Return: The number of characters printed.
+ * custom_print_unsigned - Custom print an unsigned number
+ * @custom_args: List of arguments
+ * @custom_buffer: Buffer array to handle print
+ * @custom_flags: Calculate active flags
+ * @custom_width: Get width
+ * @custom_precision: Precision specification
+ * @custom_size: Size specifier
+ * Return: Number of characters printed
  */
-int print_unsigned(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int custom_print_unsigned(va_list custom_args, char custom_buffer[],
+	int custom_flags, int custom_width, int custom_precision, int custom_size)
 {
-	int i = BUFF_SIZE - 2;
-	unsigned long int num = va_arg(types, unsigned long int);
+	int custom_index = CUSTOM_BUFF_SIZE - 2;
+	unsigned long int custom_num = va_arg(custom_args, unsigned long int);
 
-	num = convert_size_unsgnd(num, size);
+	custom_num = custom_convert_size_unsgnd(custom_num, custom_size);
 
-	if (num == 0)
-		buffer[i--] = '0';
+	if (custom_num == 0)
+		custom_buffer[custom_index--] = '0';
 
-	buffer[BUFF_SIZE - 1] = '\0';
+	custom_buffer[CUSTOM_BUFF_SIZE - 1] = '\0';
 
-	while (num > 0)
+	while (custom_num > 0)
 	{
-		buffer[i--] = (num % 10) + '0';
-		num /= 10;
+		custom_buffer[custom_index--] = (custom_num % 10) + '0';
+		custom_num /= 10;
 	}
 
-	i++;
+	custom_index++;
 
-	return (write_unsgnd(0, i, buffer, flags, width, precision, size));
+	return (custom_write_unsgnd(0, custom_index, custom_buffer,
+				custom_flags, custom_width, custom_precision, custom_size));
 }
 
-/************* Print unsigned number in octal ****************/
-
+/************* CUSTOM PRINT UNSIGNED NUMBER IN OCTAL ****************/
 /**
- * print_octal - Prints an unsigned number in octal notation.
- * @types: List of arguments.
- * @buffer: Buffer array used for printing.
- * @flags: Active flags for calculation.
- * @width: Obtained width.
- * @precision: Precision specification.
- * @size: Size specifier.
- *
- * Return: The number of characters printed.
+ * custom_print_octal - Custom print an unsigned number in octal notation
+ * @custom_args: List of arguments
+ * @custom_buffer: Buffer array to handle print
+ * @custom_flags: Calculate active flags
+ * @custom_width: Get width
+ * @custom_precision: Precision specification
+ * @custom_size: Size specifier
+ * Return: Number of characters printed
  */
-int print_octal(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int custom_print_octal(va_list custom_args, char custom_buffer[],
+	int custom_flags, int custom_width, int custom_precision, int custom_size)
 {
+	int custom_index = CUSTOM_BUFF_SIZE - 2;
+	unsigned long int custom_num = va_arg(custom_args, unsigned long int);
+	unsigned long int custom_init_num = custom_num;
 
-	int i = BUFF_SIZE - 2;
-	unsigned long int num = va_arg(types, unsigned long int);
-	unsigned long int init_num = num;
+	UNUSED(custom_width);
 
-	UNUSED(width);
+	custom_num = custom_convert_size_unsgnd(custom_num, custom_size);
 
-	num = convert_size_unsgnd(num, size);
+	if (custom_num == 0)
+		custom_buffer[custom_index--] = '0';
 
-	if (num == 0)
-		buffer[i--] = '0';
+	custom_buffer[CUSTOM_BUFF_SIZE - 1] = '\0';
 
-	buffer[BUFF_SIZE - 1] = '\0';
-
-	while (num > 0)
+	while (custom_num > 0)
 	{
-		buffer[i--] = (num % 8) + '0';
-		num /= 8;
+		custom_buffer[custom_index--] = (custom_num % 8) + '0';
+		custom_num /= 8;
 	}
 
-	if (flags & F_HASH && init_num != 0)
-		buffer[i--] = '0';
+	if (custom_flags & F_HASH && custom_init_num != 0)
+	custom_buffer[custom_index--] = '0';
 
-	i++;
+	custom_index++;
 
-	return (write_unsgnd(0, i, buffer, flags, width, precision, size));
+	return (custom_write_unsgnd(0, custom_index, custom_buffer,
+				custom_flags, custom_width, custom_precision, custom_size));
 }
 
-/************** Print unsigned number in hexadecimal **************/
-
+/************** CUSTOM PRINT UNSIGNED NUMBER IN HEXADECIMAL **************/
 /**
- * print_hexadecimal - Prints an unsigned number in hexadecimal notation.
- * @types: List of arguments.
- * @buffer: Buffer array used for printing.
- * @flags: Active flags for calculation.
- * @width: Obtained width.
- * @precision: Precision specification.
- * @size: Size specifier.
- *
- * Return: The number of characters printed.
+ * custom_print_hexadecimal - Custom print unsigned number in hexadecimal
+ * @custom_args: List of arguments
+ * @custom_buffer: Buffer array to handle print
+ * @custom_flags: Calculate active flags
+ * @custom_width: Get width
+ * @custom_precision: Precision specification
+ * @custom_size: Size specifier
+ * Return: Number of characters printed
  */
-int print_hexadecimal(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int custom_print_hexadecimal(va_list custom_args, char custom_buffer[],
+	int custom_flags, int custom_width, int custom_precision, int custom_size)
 {
-	return (print_hexa(types, "0123456789abcdef", buffer,
-		flags, 'x', width, precision, size));
+	return (custom_print_hexa(custom_args, "0123456789abcdef", custom_buffer,
+		custom_flags, 'x', custom_width, custom_precision, custom_size));
 }
 
-/************* Print unsigned number in upper hexadecimal **************/
-
+/********** CUSTOM PRINT UNSIGNED NUMBER IN UPPER HEXADECIMAL ***********/
 /**
- * print_hexa_upper - Prints unsigned number in uppercase hexadecimal notation.
- * @types: List of arguments.
- * @buffer: Buffer array used for printing.
- * @flags: Active flags for calculation.
- * @width: Obtained width.
- * @precision: Precision specification.
- * @size: Size specifier.
- *
- * Return: The number of characters printed.
+ * custom_print_hexa_upper - Custom print unsigned number in upper hexadecimal
+ * @custom_args: List of arguments
+ * @custom_buffer: Buffer array to handle print
+ * @custom_flags: Calculate active flags
+ * @custom_width: Get width
+ * @custom_precision: Precision specification
+ * @custom_size: Size specifier
+ * Return: Number of characters printed
  */
-int print_hexa_upper(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int custom_print_hexa_upper(va_list custom_args, char custom_buffer[],
+	int custom_flags, int custom_width, int custom_precision, int custom_size)
 {
-	return (print_hexa(types, "0123456789ABCDEF", buffer,
-		flags, 'X', width, precision, size));
+	return (custom_print_hexa(custom_args, "0123456789ABCDEF", custom_buffer,
+		custom_flags, 'X', custom_width, custom_precision, custom_size));
 }
 
-/************** Print hexx num in lower or upper **************/
-
+/************** CUSTOM PRINT HEX NUM IN LOWER OR UPPER **************/
 /**
- * print_hexa - Prints a hexadecimal number in lower or upper case.
- * @types: List of arguments.
- * @map_to: Array of values to map the number to.
- * @buffer: Buffer array used for printing.
- * @flags: Active flags for calculation.
- * @flag_ch: Calculates active flags.
- * @width: Obtained width.
- * @precision: Precision specification.
- * @size: Size specifier.
- *
- * Return: Number of characters printed.
+ * custom_print_hexa - Custom print a hexadecimal number in lower or upper
+ * @custom_args: List of arguments
+ * @custom_map_to: Array of values to map the number to
+ * @custom_buffer: Buffer array to handle print
+ * @custom_flags: Calculate active flags
+ * @custom_flag_ch: Calculate active flags
+ * @custom_width: Get width
+ * @custom_precision: Precision specification
+ * @custom_size: Size specifier
+ * @custom_size: Size specification
+ * Return: Number of characters printed
  */
-int print_hexa(va_list types, char map_to[], char buffer[],
-	int flags, char flag_ch, int width, int precision, int size)
+int custom_print_hexa(va_list custom_args, char custom_map_to[],
+	char custom_buffer[], int custom_flags, char custom_flag_ch,
+	int custom_width, int custom_precision, int custom_size)
 {
-	int i = BUFF_SIZE - 2;
-	unsigned long int num = va_arg(types, unsigned long int);
-	unsigned long int init_num = num;
+	int custom_index = CUSTOM_BUFF_SIZE - 2;
+	unsigned long int custom_num = va_arg(custom_args, unsigned long int);
+	unsigned long int custom_init_num = custom_num;
 
-	UNUSED(width);
+	UNUSED(custom_width);
 
-	num = convert_size_unsgnd(num, size);
+	custom_num = custom_convert_size_unsgnd(custom_num, custom_size);
 
-	if (num == 0)
-		buffer[i--] = '0';
+	if (custom_num == 0)
+		custom_buffer[custom_index--] = '0';
 
-	buffer[BUFF_SIZE - 1] = '\0';
+	custom_buffer[CUSTOM_BUFF_SIZE - 1] = '\0';
 
-	while (num > 0)
+	while (custom_num > 0)
 	{
-		buffer[i--] = map_to[num % 16];
-		num /= 16;
+		custom_buffer[custom_index--] = custom_map_to[custom_num % 16];
+		custom_num /= 16;
 	}
 
-	if (flags & F_HASH && init_num != 0)
+	if (custom_flags & F_HASH && custom_init_num != 0)
 	{
-		buffer[i--] = flag_ch;
-		buffer[i--] = '0';
+		custom_buffer[custom_index--] = custom_flag_ch;
+		custom_buffer[custom_index--] = '0';
 	}
 
-	i++;
+	custom_index++;
 
-	return (write_unsgnd(0, i, buffer, flags, width, precision, size));
+	return (custom_write_unsgnd(0, custom_index, custom_buffer,
+				custom_flags, custom_width, custom_precision, custom_size));
 }

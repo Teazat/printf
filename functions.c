@@ -1,198 +1,194 @@
-#include "main.h"
+#include "custom_printing.h"
 
-/************************* Print char *************************/
+/************************* CUSTOM PRINT CHAR *************************/
 
 /**
- * print_char - Prints a character.
- * @types: List of arguments.
- * @buffer: Buffer array used for printing.
- * @flags: Active flags for calculation.
- * @width: Width of the field.
- * @precision: Precision specification.
- * @size: Size specifier.
- *
- * Return: The number of characters printed.
+ * custom_print_char - Custom print char function
+ * @custom_args: List of arguments
+ * @custom_buffer: Buffer array to handle print
+ * @custom_flags: Calculate active flags
+ * @custom_width: Width
+ * @custom_precision: Precision specification
+ * @custom_size: Size specifier
+ * Return: Number of characters printed
  */
-int print_char(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int custom_print_char(va_list custom_args, char custom_buffer[],
+	int custom_flags, int custom_width, int custom_precision, int custom_size)
 {
-	char c = va_arg(types, int);
+	char c = va_arg(custom_args, int);
 
-	return (handle_write_char(c, buffer, flags, width, precision, size));
+	return (custom_handle_write_char(c, custom_buffer, custom_flags,
+				custom_width, custom_precision, custom_size));
 }
 
-/************************* Print a string *************************/
+/************************* CUSTOM PRINT STRING *************************/
 
 /**
- * print_string - Prints a string.
- * @types: List of arguments.
- * @buffer: Buffer array used for printing.
- * @flags: Active flags for calculation.
- * @width: Width obtained.
- * @precision: Precision specification.
- * @size: Size specifier.
- *
- * Return: The number of characters printed.
+ * custom_print_string - Custom print string function
+ * @custom_args: List of arguments
+ * @custom_buffer: Buffer array to handle print
+ * @custom_flags: Calculate active flags
+ * @custom_width: Get width.
+ * @custom_precision: Precision specification
+ * @custom_size: Size specifier
+ * Return: Number of characters printed
  */
-int print_string(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int custom_print_string(va_list custom_args, char custom_buffer[],
+	int custom_flags, int custom_width, int custom_precision, int custom_size)
 {
-	int length = 0, i;
-	char *str = va_arg(types, char *);
+	int custom_length = 0, i;
+	char *custom_str = va_arg(custom_args, char *);
 
-	UNUSED(buffer);
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(precision);
-	UNUSED(size);
-	if (str == NULL)
+	UNUSED(custom_buffer);
+	UNUSED(custom_flags);
+	UNUSED(custom_width);
+	UNUSED(custom_precision);
+	UNUSED(custom_size);
+
+	if (custom_str == NULL)
 	{
-		str = "(null)";
-		if (precision >= 6)
-			str = "      ";
+		custom_str = "(null)";
+		if (custom_precision >= 6)
+			custom_str = "      ";
 	}
 
-	while (str[length] != '\0')
-		length++;
+	while (custom_str[custom_length] != '\0')
+		custom_length++;
 
-	if (precision >= 0 && precision < length)
-		length = precision;
+	if (custom_precision >= 0 && custom_precision < custom_length)
+		custom_length = custom_precision;
 
-	if (width > length)
+	if (custom_width > custom_length)
 	{
-		if (flags & F_MINUS)
+		if (custom_flags & F_MINUS)
 		{
-			write(1, &str[0], length);
-			for (i = width - length; i > 0; i--)
+			write(1, &custom_str[0], custom_length);
+			for (i = custom_width - custom_length; i > 0; i--)
 				write(1, " ", 1);
-			return (width);
+			return (custom_width);
 		}
 		else
 		{
-			for (i = width - length; i > 0; i--)
+			for (i = custom_width - custom_length; i > 0; i--)
 				write(1, " ", 1);
-			write(1, &str[0], length);
-			return (width);
+			write(1, &custom_str[0], custom_length);
+			return (custom_width);
 		}
 	}
 
-	return (write(1, str, length));
+	return (write(1, custom_str, custom_length));
 }
-/************************* Print percent sign *************************/
 
+/************************* CUSTOM PRINT PERCENT SIGN *************************/
 /**
- * print_percent - Prints a percent sign.
- * @types: List of arguments.
- * @buffer: Buffer array used for printing.
- * @flags: Active flags for calculation.
- * @width: Obtained width.
- * @precision: Precision specification.
- * @size: Size specifier.
- *
- * Return: The number of characters printed.
+ * custom_print_percent - Custom print percent sign function
+ * @custom_args: List of arguments
+ * @custom_buffer: Buffer array to handle print
+ * @custom_flags: Calculate active flags
+ * @custom_width: Get width.
+ * @custom_precision: Precision specification
+ * @custom_size: Size specifier
+ * Return: Number of characters printed
  */
-int print_percent(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int custom_print_percent(va_list custom_args, char custom_buffer[],
+	int custom_flags, int custom_width, int custom_precision, int custom_size)
 {
-	UNUSED(types);
-	UNUSED(buffer);
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(precision);
-	UNUSED(size);
+	UNUSED(custom_args);
+	UNUSED(custom_buffer);
+	UNUSED(custom_flags);
+	UNUSED(custom_width);
+	UNUSED(custom_precision);
+	UNUSED(custom_size);
 	return (write(1, "%%", 1));
 }
 
-/************************* PRINT INT *************************/
-
+/************************* CUSTOM PRINT INT *************************/
 /**
- * print_int - Prints an integer.
- * @types: List of arguments.
- * @buffer: Buffer array used for printing.
- * @flags: Active flags for calculation.
- * @width: Obtained width.
- * @precision: Precision specification.
- * @size: Size specifier.
- *
- * Return: The number of characters printed.
+ * custom_print_int - Custom print int function
+ * @custom_args: List of arguments
+ * @custom_buffer: Buffer array to handle print
+ * @custom_flags: Calculate active flags
+ * @custom_width: Get width.
+ * @custom_precision: Precision specification
+ * @custom_size: Size specifier
+ * Return: Number of characters printed
  */
-int print_int(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int custom_print_int(va_list custom_args, char custom_buffer[],
+	int custom_flags, int custom_width, int custom_precision, int custom_size)
 {
-	int i = BUFF_SIZE - 2;
-	int is_negative = 0;
-	long int n = va_arg(types, long int);
-	unsigned long int num;
+	int i = CUSTOM_BUFF_SIZE - 2;
+	int custom_negative = 0;
+	long int custom_n = va_arg(custom_args, long int);
+	unsigned long int custom_num;
 
-	n = convert_size_number(n, size);
+	custom_n = custom_convert_size_number(custom_n, custom_size);
 
-	if (n == 0)
-		buffer[i--] = '0';
+	if (custom_n == 0)
+		custom_buffer[i--] = '0';
 
-	buffer[BUFF_SIZE - 1] = '\0';
-	num = (unsigned long int)n;
+	custom_buffer[CUSTOM_BUFF_SIZE - 1] = '\0';
+	custom_num = (unsigned long int)custom_n;
 
-	if (n < 0)
+	if (custom_n < 0)
 	{
-		num = (unsigned long int)((-1) * n);
-		is_negative = 1;
+		custom_num = (unsigned long int)((-1) * custom_n);
+		custom_negative = 1;
 	}
 
-	while (num > 0)
+	while (custom_num > 0)
 	{
-		buffer[i--] = (num % 10) + '0';
-		num /= 10;
+		custom_buffer[i--] = (custom_num % 10) + '0';
+		custom_num /= 10;
 	}
 
 	i++;
 
-	return (write_number(is_negative, i, buffer, flags, width, precision, size));
+	return (custom_write_number(custom_negative, i, custom_buffer,
+				custom_flags, custom_width, custom_precision, custom_size));
 }
 
-/************************* Print binary *************************/
-
+/************************* CUSTOM PRINT BINARY *************************/
 /**
- * print_binary - Prints an unsigned number in binary format.
- * @types: List of arguments.
- * @buffer: Buffer array used for printing.
- * @flags: Active flags for calculation.
- * @width: Obtained width.
- * @precision: Precision specification.
- * @size: Size specifier.
- *
- * Return: The number of characters printed.
+ * custom_print_binary - Custom print binary function
+ * @custom_args: List of arguments
+ * @custom_buffer: Buffer array to handle print
+ * @custom_flags: Calculate active flags
+ * @custom_width: Get width.
+ * @custom_precision: Precision specification
+ * @custom_size: Size specifier
+ * Return: Number of characters printed
  */
-int print_binary(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int custom_print_binary(va_list custom_args, char custom_buffer[],
+	int custom_flags, int custom_width, int custom_precision, int custom_size)
 {
-	unsigned int n, m, i, sum;
-	unsigned int a[32];
-	int count;
+	unsigned int custom_n, custom_m, i, custom_sum;
+unsigned int custom_a[32];
+int custom_count;
 
-	UNUSED(buffer);
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(precision);
-	UNUSED(size);
+	UNUSED(custom_buffer);
+	UNUSED(custom_flags);
+	UNUSED(custom_width);
+	UNUSED(custom_precision);
+	UNUSED(custom_size);
 
-	n = va_arg(types, unsigned int);
-	m = 2147483648; /* (2 ^ 31) */
-	a[0] = n / m;
+	custom_n = va_arg(custom_args, unsigned int);
+	custom_m = 2147483648; /* (2 ^ 31) */
+	custom_a[0] = custom_n / custom_m;
 	for (i = 1; i < 32; i++)
 	{
-		m /= 2;
-		a[i] = (n / m) % 2;
+	custom_m /= 2;
+	custom_a[i] = (custom_n / custom_m) % 2;
 	}
-	for (i = 0, sum = 0, count = 0; i < 32; i++)
+	for (i = 0, custom_sum = 0, custom_count = 0; i < 32; i++)
 	{
-		sum += a[i];
-		if (sum || i == 31)
+		custom_sum += custom_a[i];
+		if (custom_sum || i == 31)
 		{
-			char z = '0' + a[i];
+			char z = '0' + custom_a[i];
 
 			write(1, &z, 1);
-			count++;
+			custom_count++;
 		}
 	}
-	return (count);
+	return (custom_count);
 }
